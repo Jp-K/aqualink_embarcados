@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from typing import Annotated
 
 app = FastAPI()
 
@@ -22,7 +23,17 @@ app.add_middleware(
 def index():
     return 'See /{id}'
 
+@app.post('/set/temperatura/{value}')
+def index(value: str):
+    print(value)
+    return True
+
+@app.post('/set/luminosidade/{value}')
+def index(value: str):
+    print(value)
+    return True
+
 @app.get("/{id}", response_class=HTMLResponse)
 async def read_item(request: Request, id: str):
-
-    return templates.TemplateResponse("./page.html", {"request": request, "tempAnterior": id})
+    print(request.headers.get('host'))
+    return templates.TemplateResponse("./page.html", {"request": request, "tempAnterior": id, "host": request.headers.get('host')})
