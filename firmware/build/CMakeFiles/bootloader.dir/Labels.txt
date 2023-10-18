@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/CMakeFiles/bootloader
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/CMakeFiles/bootloader.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/CMakeFiles/bootloader-complete.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+C:/Users/Hutner/Documents/_Projects/aqualink_embarcados/firmware/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
