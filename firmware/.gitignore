@@ -1,6 +1,0 @@
-#Ignore
-build
-sdkconfig.old
-.devcontainer
-.vscode
-
