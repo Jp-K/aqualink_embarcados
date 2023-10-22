@@ -1,2 +1,2 @@
-idf_component_register(SRCS "framework.c"
+idf_component_register(SRCS "firmware.c"
                     INCLUDE_DIRS ".")
