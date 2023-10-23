@@ -3,9 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**", //manter
-                "C:/Espressif/**", //coloque o caminho onde foi instalado o Espressif no seu pc
-                "C:/Espressif/frameworks/esp-idf-v5.1.1/components/driver/gpio/include"
+                "${workspaceFolder}/**",
+                "C:/Espressif/**",
+                "C:/Espressif/frameworks/esp-idf-v5.1.1/components/driver/gpio/include",
+                "C:/Espressif/frameworks/esp-idf-v5.1.1/components/freertos/FreeRTOS-Kernel-SMP/include",
+                "C:/Espressif/frameworks/esp-idf-v5.1.1/components/log/include"
             ],
             "defines": [
                 "_DEBUG",

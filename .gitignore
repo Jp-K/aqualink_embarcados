@@ -1,2 +1,3 @@
-.vscode/launch.json
-framework/build
+.vscode
+firmware/build
+testes
