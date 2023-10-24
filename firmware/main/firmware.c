@@ -11,6 +11,7 @@
 #include "include/server.h"
 
 #define LED_PIN 2
+#define POT_PIN 5
 
 static const char *TAGwifi = "wifi_task";
 static const char *TAGr = "reading_task";
@@ -35,12 +36,18 @@ void app_main(void)
     ESP_LOGI(TAGwifi, "ESP_WIFI_MODE_STA");
     wifi_init_sta();
 
+    
+
     // GPIO initialization
     gpio_reset_pin(LED_PIN);
     gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
 
-    ESP_LOGI(TAGs, "LED Control Web Server is running ... ...\n");
+    gpio_reset_pin(POT_PIN);
+    gpio_set_direction(POT_PIN, GPIO_MODE_OUTPUT);
+
+    ESP_LOGI(TAGs, "Starting Web Server ... ...\n");
     setup_server();
+    ESP_LOGI(TAGs, "Web Server is running ... ...\n");
 
    // xTaskCreate(&serverTask, "serverTask",2048,NULL,5,NULL); //funct_name, task_name, stack_size, task_param, task_priority, task_handle
    // xTaskCreate(&getReadingsTask, "getReadingsTask",2048,NULL,5,NULL);

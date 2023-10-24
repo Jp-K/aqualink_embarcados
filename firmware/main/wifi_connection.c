@@ -147,4 +147,5 @@ void wifi_init_sta(void)
     } else {
         ESP_LOGE(TAG, "UNEXPECTED EVENT");
     }
+    //vEventGroupDelete(s_wifi_event_group);
 }
