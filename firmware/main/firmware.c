@@ -15,13 +15,16 @@
 #include "esp_adc_cal.h"
 //esp_adc/adc_oneshot.h and esp_adc/adc_continuous.h
 
+//Biblioteca para o DHT11
+#include "include/dht11.h"
+
 
 #define LED_RES_PIN 2 //da esp
+#define DHT_PIN 4  //azul
 #define RES_PIN 25 //marrom claro
 #define LED_PIN 26 //marrom escuro
 
 #define LDR_PIN 34 //ADC1_6 ADC1_CHANNEL_6 //laranja
-#define DHT_PIN 35 //ADC1_7 ADC1_CHANNEL_7 //azul
 
 static const char *TAGwifi = "wifi_task";
 static const char *TAGr = "reading_task";
@@ -29,23 +32,36 @@ static const char *TAGs = "server_task";
 
 
 void getReadingsTask(void * parameters){
+    //Var Init
     uint32_t voltage;
     int reading = 0;
     int led_res_level = 0;
     int led_level = 0;
+    int reading_delay = 1000;
+
+    //DHT Setup
+    DHT11_init(DHT_PIN);
+
+    //LDR Setup
     esp_adc_cal_characteristics_t adc1_chars; //Calibracao LDR
     adc1_config_channel_atten(ADC1_CHANNEL_6,ADC_ATTEN_DB_0); //Atenuacao LDR
     adc1_config_width(ADC_WIDTH_BIT_DEFAULT); //Widht LDR
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_DEFAULT, 0, &adc1_chars);
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_0, ADC_WIDTH_BIT_DEFAULT, 0, &adc1_chars); //Calibracao LDR
+
+    //Laço
     for( ;; ){
-        ESP_LOGI(TAGr,"Get readings");
+        ESP_LOGI(TAGr,"Get sensors readings");
 
         //LDR
         reading = adc1_get_raw(ADC1_CHANNEL_6);
-        //ESP_ERROR_CHECK(adc1_get_raw(ADC2_CHANNEL_3, ADC_WIDTH_BIT_DEFAULT, &reading));
-        ESP_LOGI(TAGr, "LDR: %d", reading);
         voltage = esp_adc_cal_raw_to_voltage(reading, &adc1_chars);
-        ESP_LOGI(TAGr, "ADC1_CHANNEL_6: %lu mV", voltage);
+        ESP_LOGI(TAGr, "LDR: %d", reading);
+        ESP_LOGI(TAGr, "LDR_ADC: %lu mV", voltage);
+
+        //DHT11
+        ESP_LOGI(TAGr,"Temperature is %d", DHT11_read().temperature);
+        ESP_LOGI(TAGr,"Humidity is %d", DHT11_read().humidity);
+        ESP_LOGI(TAGr,"Status code is %d", DHT11_read().status);
 
         //Leds
         led_res_level = ~led_res_level;
@@ -54,7 +70,8 @@ void getReadingsTask(void * parameters){
         gpio_set_level(LED_PIN, led_level);
 
         //Delay
-        vTaskDelay(500);
+        ESP_LOGI(TAGr,"Sensors reading finished. Next in: %d\n", reading_delay);
+        vTaskDelay(reading_delay);
     }
 }
 
@@ -68,7 +85,7 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(ret);
 
-    ESP_LOGI(TAGwifi, "Starting Wifi Login ... ... \n");
+    ESP_LOGI(TAGwifi, "Starting Wifi Login ... ... \n"); //Utilizar menuconfig para configurar rede
     //wifi_init_sta();
     ESP_LOGI(TAGwifi, "Wifi is Running! \n");
 

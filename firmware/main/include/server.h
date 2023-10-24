@@ -1,3 +1,6 @@
+#ifndef SERVER_H_
+#define SERVER_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> //Requires by memset
@@ -20,3 +23,5 @@
 #include <lwip/netdb.h>
 
 httpd_handle_t setup_server(void);
+
+#endif

@@ -6,6 +6,8 @@
    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
    CONDITIONS OF ANY KIND, either express or implied.
 */
+#ifndef WIFI_CONNECTION_H_
+#define WIFI_CONNECTION_H_
 
 #include <string.h>
 #include "freertos/FreeRTOS.h"
@@ -23,3 +25,5 @@
 static void event_handler(void*, esp_event_base_t, int32_t, void*);
 
 void wifi_init_sta(void);
+
+#endif
