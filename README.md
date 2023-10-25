@@ -8,3 +8,8 @@ pip install jinja2<br/>
 
 ### Para iniciar o servidor:
 python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000<br/>
+
+### Autores:
+João Paulo Kraisch
+João Victor Hutner
+Bruna Henning
