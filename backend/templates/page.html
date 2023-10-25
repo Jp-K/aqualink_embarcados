@@ -11,7 +11,7 @@
             <nav class="navbar mb-2">
                 <div class="container-fluid">
                     <span class="navbar-brand mb-0 h1">
-                        <img src="/static/temp-1.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+                        <img src="/static/temp-1.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" id="logo">
                         Aqualink - monitoramento
                     </span>
                 </div>
@@ -25,7 +25,7 @@
                                 <div class="GaugeMeter" 
                                     id="PreviewGaugeMeter_3" 
                                     data-percent="50" 
-                                    data-text="<font style='font-size:25px;letter-spacing:-1px'>27</font>" 
+                                    data-text="<font id='valueTemperatura' style='font-size:25px;letter-spacing:-1px'>27</font>" 
                                     data-append=" ℃"
                                     data-size="200" 
                                     data-color="Green" 
@@ -42,18 +42,20 @@
                                 <li class="list-group-item">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <label for="temperatura" class="col-form-label">Temperatura anterior: <span id="tempAnterior">--</span> ℃</label>
+                                            <label for="temperatura" class="col-form-label">Aquecedor: <span id="tempAnterior">--</span></label>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <label for="temperatura" class="col-form-label">Temperatura (℃): </label>
+                                            <label for="temperatura" class="col-form-label">ligar/desligar: </label>
                                           </div>
+                                          <!--
                                           <div class="col">
                                             <input type="number" id="temperatura" class="form-control">
                                           </div>
+                                          -->
                                           <div class="col-auto">
                                             <span class="form-text">
                                                 <button type="button" id="temperatura_btn" class="btn btn-primary">Atualizar</button>
@@ -75,7 +77,7 @@
                                 <div class="GaugeMeter" 
                                     id="PreviewGaugeMeter_3" 
                                     data-percent="70" 
-                                    data-text="<font style='font-size:25px;letter-spacing:-1px'>1500</font>" 
+                                    data-text="<font id='valueLuminosidade' style='font-size:25px;letter-spacing:-1px'>1500</font>" 
                                     data-append=" lm"
                                     data-size="200" 
                                     data-color="Red" 
@@ -92,18 +94,20 @@
                                 <li class="list-group-item">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <label for="luminosidade" class="col-form-label">Luminosidade anterior: <span id="lumAnterior">--</span> lm</label>
+                                            <label for="luminosidade" class="col-form-label">Luz: <span id="lumAnterior">--</span> </label>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="list-group-item">
                                     <div class="row g-3 align-items-center">
                                         <div class="col-auto">
-                                            <label for="luminosidade" class="col-form-label">Luminosidade (lm): </label>
+                                            <label for="luminosidade" class="col-form-label">Ligar/Desligar: </label>
                                           </div>
+                                          <!--
                                           <div class="col">
                                             <input type="number" id="luminosidade" class="form-control">
                                           </div>
+                                          -->
                                           <div class="col-auto">
                                             <span class="form-text">
                                                 <button type="button" id="luminosidade_btn" class="btn btn-primary">Atualizar</button>
@@ -126,19 +130,58 @@
             // <span id="tempAnterior">--</span>
             var temperatura_anterior =  document.getElementById('tempAnterior');
             var luminosidade_anterior = document.getElementById('lumAnterior');
+            var botaoAtualizar = document.getElementById('logo');
+            function get_temperatura() {
+                fetch(`{{url}}/get/temperatura/`, { method: "GET"}).then(
+                    response => response.json()
+                ).then( 
+                    (data) => {
+                        var gaugeValueTemp = document.getElementById('valueTemperatura');
+                        gaugeValueTemp.innerText = data;
+                    }
+                );
+            }
+
+            function get_luminosidade() {
+                fetch(`{{url}}/get/luminosidade/`, { method: "GET"}).then(
+                    response => response.json()
+                ).then( 
+                    (data) => {
+                        var gaugeValueLum = document.getElementById('valueLuminosidade');
+                        gaugeValueLum.innerText = data;
+                    }
+                );
+            }
+
+            function get_data() {
+                get_luminosidade()
+                get_temperatura()
+            }
+            setInterval(get_data, 4000)
 
             function set_temperatura(event) {
-                var temperatura_value  = document.getElementById('temperatura');
-                fetch(`{{url}}/set/temperatura/${temperatura_value.value}`, { method: "POST"});
-                temperatura_anterior.innerText = temperatura_value.value;
+                //var temperatura_value  = document.getElementById('temperatura');
+                fetch(`{{url}}/set/temperatura/`, { method: "GET"}).then(
+                    response => response.json()
+                ).then( 
+                    (data) => {
+                        temperatura_anterior.innerText = data;
+                    }
+                );
             }
             function set_luminosidade(event) {
-                var luminosidade_value  = document.getElementById('luminosidade');
-                fetch(`{{url}}/set/luminosidade/${luminosidade_value.value}`, { method: "POST"});
-                luminosidade_anterior.innerText = luminosidade_value.value;
+                //var luminosidade_value  = document.getElementById('luminosidade');
+                fetch(`{{url}}/set/luminosidade/`, { method: "GET"}).then(
+                    response => response.json()
+                ).then( 
+                    (data) => {
+                        luminosidade_anterior.innerText = data;
+                    }
+                );
             }
             var temperatura_btn  = document.getElementById('temperatura_btn');
             var luminosidade_btn = document.getElementById('luminosidade_btn');
+            botaoAtualizar.addEventListener('click', get_data)
             temperatura_btn.addEventListener('click',  set_temperatura)
             luminosidade_btn.addEventListener('click', set_luminosidade)
             $(document).ready(function(){

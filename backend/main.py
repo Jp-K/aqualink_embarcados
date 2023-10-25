@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Annotated
+import requests
 
 app = FastAPI()
 
@@ -23,15 +24,41 @@ app.add_middleware(
 def index():
     return 'See /{id}'
 
-@app.post('/set/temperatura/{value}')
-def index(value: str):
-    print(value)
-    return True
+@app.get('/get/temperatura/')
+def index():
+    response = requests.get('http://192.168.154.241/get')
+    temperatura_luminosidade = response.content.decode("utf-8").split(',')
+    return temperatura_luminosidade[0]
 
-@app.post('/set/luminosidade/{value}')
-def index(value: str):
-    print(value)
-    return True
+@app.get('/get/luminosidade/')
+def index():
+    response = requests.get('http://192.168.154.241/get')
+    temperatura_luminosidade = response.content.decode("utf-8").split(',')
+    return temperatura_luminosidade[1]
+
+@app.get('/set/temperatura/')
+def index():
+    response = requests.get('http://192.168.154.241/get')
+    temperatura_luminosidade = response.content.decode("utf-8").split(',')
+    value_to_return = '0'
+    if temperatura_luminosidade[2] == '0':
+        requests.get('http://192.168.154.241/res2on')
+        value_to_return = '1'
+    else:
+        requests.get('http://192.168.154.241/res2off')
+    return value_to_return
+
+@app.get('/set/luminosidade/')
+def index():
+    response = requests.get('http://192.168.154.241/get')
+    temperatura_luminosidade = response.content.decode("utf-8").split(',')
+    value_to_return = '0'
+    if temperatura_luminosidade[3] == '0':
+        requests.get('http://192.168.154.241/led2on')
+        value_to_return = '1'
+    else:
+        requests.get('http://192.168.154.241/led2off')
+    return value_to_return
 
 @app.get("/{id}", response_class=HTMLResponse)
 async def read_item(request: Request, id: str):
