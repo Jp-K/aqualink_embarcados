@@ -339,7 +339,7 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# Example Configuration
+# Wi-Fi New Configuration
 #
 CONFIG_ESP_WIFI_SSID="ropedev"
 CONFIG_ESP_WIFI_PASSWORD="nwbu6659"
@@ -356,7 +356,7 @@ CONFIG_ESP_WIFI_AUTH_WPA2_PSK=y
 # CONFIG_ESP_WIFI_AUTH_WPA3_PSK is not set
 # CONFIG_ESP_WIFI_AUTH_WPA2_WPA3_PSK is not set
 # CONFIG_ESP_WIFI_AUTH_WAPI_PSK is not set
-# end of Example Configuration
+# end of Wi-Fi New Configuration
 
 #
 # Compiler options
